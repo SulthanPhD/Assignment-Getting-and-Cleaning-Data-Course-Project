@@ -19,6 +19,8 @@ Read training data
 subjectTrain <- read.table("UCI HAR Dataset/train/subject_train.txt", header = FALSE)
 activityTrain <- read.table("UCI HAR Dataset/train/y_train.txt", header = FALSE)
 featuresTrain <- read.table("UCI HAR Dataset/train/X_train.txt", header = FALSE)
+
+
 Read test data
 subjectTest <- read.table("UCI HAR Dataset/test/subject_test.txt", header = FALSE)
 activityTest <- read.table("UCI HAR Dataset/test/y_test.txt", header = FALSE)
@@ -30,16 +32,22 @@ We can use combine the respective data in training and test data sets correspond
 subject <- rbind(subjectTrain, subjectTest)
 activity <- rbind(activityTrain, activityTest)
 features <- rbind(featuresTrain, featuresTest)
+
+
 Naming the columns
 The columns in the features data set can be named from the metadata in featureNames
 
 colnames(features) <- t(featureNames[2])
+
+
 Merge the data
 The data in features,activity and subject are merged and the complete data is now stored in completeData.
 
 colnames(activity) <- "Activity"
 colnames(subject) <- "Subject"
 completeData <- cbind(features,activity,subject)
+
+
 Step 2 - Extracts only the measurements on the mean and standard deviation for each measurement
 Extract the column indices that have either mean or std in them.
 
@@ -54,6 +62,8 @@ We create extractedData with the selected columns in requiredColumns. And again,
 extractedData <- completeData[,requiredColumns]
 dim(extractedData)
 ## [1] 10299    88
+
+
 Step 3 - Uses descriptive activity names to name the activities in the data set
 The activity field in extractedData is originally of numeric type. We need to change its type to character so that it can accept activity names. The activity names are taken from metadata activityLabels.
 
@@ -64,6 +74,8 @@ extractedData$Activity[extractedData$Activity == i] <- as.character(activityLabe
 We need to factor the activity variable, once the activity names are updated.
 
 extractedData$Activity <- as.factor(extractedData$Activity)
+
+
 Step 4 - Appropriately labels the data set with descriptive variable names
 Here are the names of the variables in extractedData
 
